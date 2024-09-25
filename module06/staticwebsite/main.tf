@@ -40,6 +40,7 @@ resource "azurerm_storage_blob" "index_html" {
   source_content         = "${var.source_content}${local.web_suffix}"
 }
  
+ # Output the primary endpoint of the static website
 output "primary_web_endpoint" {
     value = azurerm_storage_account.sa_web.primary_web_endpoint
 }
