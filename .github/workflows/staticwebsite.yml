@@ -3,7 +3,7 @@ name: web
 on: 
   push:
     paths: 
-      - 'github-terraform-test/module06/staticwebsite/**'
+      - 'module06/staticwebsite/**'
   
   workflow_dispatch:
 
@@ -15,7 +15,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      WORKING_DIR: ./github-terraform-test/module06/staticwebsite
+      WORKING_DIR: ./module06/staticwebsite
 
     steps:
       - uses: actions/checkout@v3
