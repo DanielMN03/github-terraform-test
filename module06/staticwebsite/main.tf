@@ -30,6 +30,7 @@ resource "azurerm_storage_account" "sa_web" {
   }
 }
  
+ # Create a blob container and upload the index.html file
 resource "azurerm_storage_blob" "index_html" {
   name                   = var.index_document
   storage_account_name   = azurerm_storage_account.sa_web.name
