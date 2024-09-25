@@ -5,19 +5,10 @@ on:
     paths: 
       - 'module06/staticwebsite/**'
   
-  workflow_dispatch:
-    inputs:
-      action_type:
-        description:  'What action should be performed? (apply/destroy)'
-        required:  true
-        default:   'apply'
-        type: choice
-        options:
-          -  'apply'
-          -  'destroy'
+
 
 jobs:
-  resource_groups:
+  terraform:
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -39,13 +30,15 @@ jobs:
         run: terraform plan
         working-directory: ${{ env.WORKING_DIR }}
 
-      - name: 'Terraform apply'
-        if:  github.event.inputs.action_type == 'apply'
-        id: apply
-        run: terraform apply -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
+      - name: 'Check last commit message'
+        id: commit
+        run: echo "::set-output name=message::$(git log --format=%B -n 1)"
+      - name: 'Conditionally run Terraform action'
+        run: |
+          if [[ "${{ steps.commit.outputs.message }}" == *"destroy"* ]]; then
+            terraform destroy -auto-approve
+          else
+            terraform apply -auto-approve
+          fi
+          
 
-      - name: 'Terraform destroy'
-        if:  github.event.inputs.action_type == 'destroy'
-        run: terraform destroy -auto-approve
-        working-directory: ${{ env.WORKING_DIR }}
