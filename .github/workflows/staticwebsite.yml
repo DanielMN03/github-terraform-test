@@ -7,7 +7,7 @@ on:
       - 'github-terraform-test/module06/staticwebsite/**'
 
 
-  workflow_dispatch:
+   workflow_dispatch:
 
 jobs:
 
