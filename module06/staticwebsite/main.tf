@@ -17,6 +17,7 @@ resource "azurerm_resource_group" "rg_web" {
   location = var.location
 }
  
+# Create a storage account with a static website 
 resource "azurerm_storage_account" "sa_web" {
   name                     = "${lower(local.sa_name)}${random_string.random_string.result}"
   resource_group_name      = azurerm_resource_group.rg_web.name
